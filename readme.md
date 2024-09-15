@@ -28,3 +28,27 @@
     Centering :
 
     Move the scene down with the Center helper from drei.
+
+    Adding Pole light :
+
+    Inside <Center> add a new <mesh> with the geometry set to the nodes.poleLightA.geometry.
+
+    Tone mapping :
+
+    Tone mapping is usually good and color looks better with it, but if our scene is baked and we don't want to have extra tone mapping, because the while baking the scene we have already did it, so we can easily stop the defautlt tone mapping by adding "flat" attribute to the <Canvas>
+
+    The flat will set the toneMapping to THREE.NoToneMapping
+
+
+    Sparkles in drei :
+        <Sparkles
+          size={6} // size of the particles
+          scale={[4, 2, 4]} // area of the cude inside which sparkles are kept
+          position-y={1} // postion of the cude
+          speed={0.3} // speed of the particle
+          count={40} // number of particles
+        />
+
+    Portal :
+
+    We need to add the custom shader material to the portal.
