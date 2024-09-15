@@ -6,6 +6,11 @@ import {
   Sparkles,
 } from "@react-three/drei";
 
+import * as THREE from "three";
+
+import { vertexShader, fragmentShader } from "./Shaders";
+import { useEffect, useState } from "react";
+
 export default function Experience() {
   //   const model = useGLTF("./model/portal.glb");
   const { nodes } = useGLTF("./model/portal.glb");
@@ -16,6 +21,32 @@ export default function Experience() {
   // fliping y cordinate of the texture
   bakedTexture.flipY = false;
   //   console.log(bakedTexture)
+
+  // Three.js Color
+  const poleLightColor = new THREE.Color(0xffffff);
+
+  // For accessing shader in JSX file we use fetch api to call the shaders
+  // const [vertexShader, setVertexShader] = useState("void main(){}");
+  // const [fragmentShader, setFragmentShader] = useState("void main(){}");
+
+  // useEffect(() => {
+  //   // Fetch vertex shader
+  //   fetch("./shaders/portal/vertex.glsl")
+  //     .then((response) => response.text())
+  //     .then((shader) => setVertexShader(shader))
+  //     .catch((error) => console.error("Error loading vertex shader:", error));
+
+  //   // Fetch fragment shader
+  //   fetch("./shaders/portal/fragment.glsl")
+  //     .then((response) => response.text())
+  //     .then((shader) => setFragmentShader(shader))
+  //     .catch((error) => console.error("Error loading fragment shader:", error));
+  // }, []);
+
+  console.log(fragmentShader, vertexShader);
+
+  // if (vertexShader == "void main(){}" && fragmentShader == "void main(){}")
+  //   return;
 
   return (
     <>
@@ -34,7 +65,7 @@ export default function Experience() {
           geometry={nodes.poleLightA.geometry}
           position={nodes.poleLightA.position}
         >
-          <meshBasicMaterial color="ffffee" />
+          <meshBasicMaterial color={poleLightColor} />
         </mesh>
 
         {/* Pole light B mesh */}
@@ -42,7 +73,7 @@ export default function Experience() {
           geometry={nodes.poleLightB.geometry}
           position={nodes.poleLightB.position}
         >
-          <meshBasicMaterial color="ffffee" />
+          <meshBasicMaterial color={poleLightColor} />
         </mesh>
 
         {/* Prtal light mesh */}
@@ -51,7 +82,16 @@ export default function Experience() {
           position={nodes.portalLight.position}
           rotation={nodes.portalLight.rotation}
         >
-          <meshBasicMaterial color="ffffee" />
+          {/* <meshBasicMaterial color="ffffee" /> */}
+          <shaderMaterial
+            vertexShader={vertexShader}
+            fragmentShader={fragmentShader}
+            uniforms={{
+              uTime: { value: 0 },
+              uColorStart: { value: new THREE.Color("#ffffff") },
+              uColorEnd: { value: new THREE.Color("#000000") },
+            }}
+          />
         </mesh>
 
         {/* Sparkles */}

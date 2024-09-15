@@ -52,3 +52,21 @@
     Portal :
 
     We need to add the custom shader material to the portal.
+
+      1. Replace the <meshBasicMaterial> with <shaderMaterial>.
+      2. import the shaders.
+      3. Use
+          <shaderMaterial
+            vertexShader={vertexShader}
+            fragmentShader={fragmentShader}
+            uniforms={{
+              uTime: { value: 0 },
+              uColorStart: { value: new THREE.Color("#ffffff") },
+              uColorEnd: { value: new THREE.Color("#000000") },
+            }}
+          />
+      4. For accessing shader in JSX file we use fetch api to call the shaders.
+      5. The shaders file should be kept in public folder if we want to access it using fetch api and not using the vite or web pack config.
+      6. This will cost us an extra API call that can be fatal and is unnecessary.
+
+      7. If we want to use vite.config for loading the shader we have to move our index.html(root) inside the src to avoid conflicts from the vite nomenclature.
