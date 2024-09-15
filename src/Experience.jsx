@@ -4,12 +4,28 @@ import {
   useGLTF,
   OrbitControls,
   Sparkles,
+  shaderMaterial,
 } from "@react-three/drei";
 
 import * as THREE from "three";
 
 import { vertexShader, fragmentShader } from "./Shaders";
 import { useEffect, useState } from "react";
+import { extend } from "@react-three/fiber";
+import PortalMaterial from "./PortalMaterial";
+
+// To convert material shader into an r3f tag that can be used in the JSX, we can use the extend method
+// const PortalMaterial = shaderMaterial(
+//   {
+//     uTime: 0,
+//     uColorStart: new THREE.Color("#0xffffff"),
+//     uColorEnd: new THREE.Color("#0x000000"),
+//   },
+//   vertexShader,
+//   fragmentShader
+// );
+
+// extend({ PortalMaterial });
 
 export default function Experience() {
   //   const model = useGLTF("./model/portal.glb");
@@ -83,7 +99,7 @@ export default function Experience() {
           rotation={nodes.portalLight.rotation}
         >
           {/* <meshBasicMaterial color="ffffee" /> */}
-          <shaderMaterial
+          {/* <shaderMaterial
             vertexShader={vertexShader}
             fragmentShader={fragmentShader}
             uniforms={{
@@ -91,7 +107,8 @@ export default function Experience() {
               uColorStart: { value: new THREE.Color("#ffffff") },
               uColorEnd: { value: new THREE.Color("#000000") },
             }}
-          />
+          /> */}
+          <portalMaterial />
         </mesh>
 
         {/* Sparkles */}
