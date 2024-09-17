@@ -10,22 +10,22 @@ import {
 import * as THREE from "three";
 
 import { vertexShader, fragmentShader } from "./Shaders";
-import { useEffect, useState } from "react";
-import { extend } from "@react-three/fiber";
-import PortalMaterial from "./PortalMaterial";
+import { useEffect, useRef, useState } from "react";
+import { extend, useFrame } from "@react-three/fiber";
+// import PortalMaterial from "./PortalMaterial";
 
 // To convert material shader into an r3f tag that can be used in the JSX, we can use the extend method
-// const PortalMaterial = shaderMaterial(
-//   {
-//     uTime: 0,
-//     uColorStart: new THREE.Color("#0xffffff"),
-//     uColorEnd: new THREE.Color("#0x000000"),
-//   },
-//   vertexShader,
-//   fragmentShader
-// );
+const PortalMaterial = shaderMaterial(
+  {
+    uTime: 0,
+    uColorStart: new THREE.Color("#0xffffff"),
+    uColorEnd: new THREE.Color("#0x000000"),
+  },
+  vertexShader,
+  fragmentShader
+);
 
-// extend({ PortalMaterial });
+extend({ PortalMaterial });
 
 export default function Experience() {
   //   const model = useGLTF("./model/portal.glb");
@@ -45,6 +45,9 @@ export default function Experience() {
   // const [vertexShader, setVertexShader] = useState("void main(){}");
   // const [fragmentShader, setFragmentShader] = useState("void main(){}");
 
+  // Creating ref for animating portal
+  const portalRef = useRef();
+
   // useEffect(() => {
   //   // Fetch vertex shader
   //   fetch("./shaders/portal/vertex.glsl")
@@ -58,6 +61,11 @@ export default function Experience() {
   //     .then((shader) => setFragmentShader(shader))
   //     .catch((error) => console.error("Error loading fragment shader:", error));
   // }, []);
+  console.log(portalRef);
+
+  useFrame((state, delta) => {
+    portalRef.current.uTime += delta * 10;
+  });
 
   console.log(fragmentShader, vertexShader);
 
@@ -100,6 +108,7 @@ export default function Experience() {
         >
           {/* <meshBasicMaterial color="ffffee" /> */}
           {/* <shaderMaterial
+            ref={portalRef}
             vertexShader={vertexShader}
             fragmentShader={fragmentShader}
             uniforms={{
@@ -108,7 +117,7 @@ export default function Experience() {
               uColorEnd: { value: new THREE.Color("#000000") },
             }}
           /> */}
-          <portalMaterial />
+          <portalMaterial ref={portalRef} />
         </mesh>
 
         {/* Sparkles */}
